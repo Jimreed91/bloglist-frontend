@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login';
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Toggleable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,6 +13,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
+  const blogFormRef = useRef()
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if(loggedUserJSON) {
@@ -57,6 +59,7 @@ const App = () => {
   }
 
   const addBlog = async (blogObj) => {
+    blogFormRef.current.toggleVisibility()
     try {
       await blogService.create(blogObj)
       setErrorMessage(`A new blog "${blogObj.title}" by ${blogObj.author} was created`)
@@ -90,14 +93,17 @@ const App = () => {
           setUsername={setUsername}
           setPassword ={setPassword}
           /> :
-          <BlogForm
-          createBlog={addBlog}
-          />
+          <>
+            <p>{user.name} is logged in </p>
+            <button onClick={handleLogout}>Logout</button>
+          </>
         }
         {user &&
         <div>
-          <p>{user.name} is logged in </p>
-          <button onClick={handleLogout}>Logout</button>
+          <Togglable buttonLabel={"New Blog"} ref={blogFormRef}>
+            <BlogForm createBlog={addBlog}/>
+          </Togglable>
+
         </div>
         }
 
