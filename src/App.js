@@ -24,9 +24,13 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+    blogService.getAll()
+    .then(blogs =>
+      blogs.sort((a, b) => b.likes - a.likes)
     )
+    .then(blogs =>
+      setBlogs(blogs)
+      )
   })
 
   const handleLogin = async (event) => {
@@ -77,9 +81,9 @@ const App = () => {
 
   const handleLikeOf = async (id) => {
     const blog = blogs.find(blog => blog.id === id)
-    const editedLikes = blog.likes ++
+    const editedLikes = blog.likes + 1
     const editedBlog= { ...blog, likes: editedLikes}
-    console.log(editedBlog)
+    console.log(editedBlog, editedLikes)
     try {
       await blogService.update(id, editedBlog)
       setErrorMessage(`Blog ${blog.title} edited`)
