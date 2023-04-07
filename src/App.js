@@ -75,6 +75,25 @@ const App = () => {
     }
   }
 
+  const handleLikeOf = async (id) => {
+    const blog = blogs.find(blog => blog.id === id)
+    const editedLikes = blog.likes ++
+    const editedBlog= { ...blog, likes: editedLikes}
+    console.log(editedBlog)
+    try {
+      await blogService.update(id, editedBlog)
+      setErrorMessage(`Blog ${blog.title} edited`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000);
+    }catch (exception) {
+      setErrorMessage(exception.message.verbose);
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000);
+    }
+  }
+
   const notification = () => (
       <p>{errorMessage}</p>
   )
@@ -108,7 +127,10 @@ const App = () => {
         }
 
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog
+            key={blog.id}
+            blog={blog}
+            handleLike = {() => handleLikeOf(blog.id)} />
           )}
 
       </div>
