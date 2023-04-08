@@ -79,6 +79,25 @@ const App = () => {
     }
   }
 
+  const removeBlog = async (id) => {
+    const blog = blogs.find(blog => blog.id === id)
+    if(window.confirm(`Delete ${ blog.title}?`)) {
+      try {
+        await blogService.destroy(id)
+        setErrorMessage(`Blog ${blog.title} deleted`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000);
+      } catch (exception) {
+        setErrorMessage(exception.message.verbose);
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000);
+      }
+    }
+  }
+
+
   const handleLikeOf = async (id) => {
     const blog = blogs.find(blog => blog.id === id)
     const editedLikes = blog.likes + 1
@@ -90,7 +109,7 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000);
-    }catch (exception) {
+    } catch (exception) {
       setErrorMessage(exception.message.verbose);
       setTimeout(() => {
         setErrorMessage(null)
@@ -134,7 +153,8 @@ const App = () => {
             <Blog
             key={blog.id}
             blog={blog}
-            handleLike = {() => handleLikeOf(blog.id)} />
+            handleLike = {() => handleLikeOf(blog.id)}
+            destroyBlog = {() => removeBlog(blog.id)} />
           )}
 
       </div>
