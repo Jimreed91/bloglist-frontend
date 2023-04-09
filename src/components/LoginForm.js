@@ -9,24 +9,24 @@ const LoginForm = ({
 }) => {
 
   return(<form onSubmit={handleLogin}>
-      <div>
+    <div>
         username:
-          <input
-          type='text'
-          value={username}
-          onChange={({ target }) => setUsername(target.value)}
-          />
-      </div>
-      <div>
+      <input
+        type='text'
+        value={username}
+        onChange={({ target }) => setUsername(target.value)}
+      />
+    </div>
+    <div>
         password:
-          <input
-          type='text'
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-          />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+      <input
+        type='text'
+        value={password}
+        onChange={({ target }) => setPassword(target.value)}
+      />
+    </div>
+    <button type="submit">Login</button>
+  </form>
   )
 }
 

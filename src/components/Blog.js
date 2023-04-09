@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({blog, handleLike, destroyBlog}) => {
+const Blog = ({ blog, handleLike, destroyBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -24,23 +24,23 @@ const Blog = ({blog, handleLike, destroyBlog}) => {
   }
 
   return (
-  <div style={blogStyle}>
-    <div style={{display: 'flex'}}>
-      <p style={textStyle}> {blog.title} {blog.author} </p>
-      <button style={hideWhenVisible} onClick={toggleVisibility}> View </button>
-      <button style={showWhenVisible} onClick={toggleVisibility}> Hide</button>
-    </div>
-    <div style={showWhenVisible}>
-      <p style={textStyle}> {blog.url} </p>
-      <div style={{display: 'flex'}}>
-        <p style={textStyle}> likes: {blog.likes} </p>
-        <button onClick={handleLike}> Like </button>
+    <div style={blogStyle}>
+      <div style={{ display: 'flex' }}>
+        <p style={textStyle}> {blog.title} {blog.author} </p>
+        <button style={hideWhenVisible} onClick={toggleVisibility}> View </button>
+        <button style={showWhenVisible} onClick={toggleVisibility}> Hide</button>
       </div>
+      <div style={showWhenVisible}>
+        <p style={textStyle}> {blog.url} </p>
+        <div style={{ display: 'flex' }}>
+          <p style={textStyle}> likes: {blog.likes} </p>
+          <button onClick={handleLike}> Like </button>
+        </div>
 
-      <p style={textStyle}> {blog.user.name} </p>
-      <button onClick={destroyBlog}> Remove </button>
+        <p style={textStyle}> {blog.user.name} </p>
+        <button onClick={destroyBlog}> Remove </button>
+      </div>
     </div>
-  </div>
   )
 }
 

@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import loginService from './services/login';
+import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
-import Togglable from './components/Toggleable';
+import Togglable from './components/Toggleable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -25,16 +25,16 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll()
-    .then(blogs =>
-      blogs.sort((a, b) => b.likes - a.likes)
-    )
-    .then(blogs =>
-      setBlogs(blogs)
+      .then(blogs =>
+        blogs.sort((a, b) => b.likes - a.likes)
+      )
+      .then(blogs =>
+        setBlogs(blogs)
       )
   })
 
   const handleLogin = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     try {
       const user = await loginService.login({
@@ -52,11 +52,11 @@ const App = () => {
       setErrorMessage('Wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
+      }, 5000)
     }
   }
 
-  const handleLogout = (event) =>{
+  const handleLogout = (event) => {
     event.preventDefault()
     setUser(null)
     window.localStorage.removeItem('loggedBloglistUser')
@@ -69,13 +69,13 @@ const App = () => {
       setErrorMessage(`A new blog "${blogObj.title}" by ${blogObj.author} was created`)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
+      }, 5000)
 
     } catch (exception) {
-      setErrorMessage(exception.message.verbose);
+      setErrorMessage(exception.message.verbose)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
+      }, 5000)
     }
   }
 
@@ -87,12 +87,12 @@ const App = () => {
         setErrorMessage(`Blog ${blog.title} deleted`)
         setTimeout(() => {
           setErrorMessage(null)
-        }, 5000);
+        }, 5000)
       } catch (exception) {
-        setErrorMessage(exception.message.verbose);
+        setErrorMessage(exception.message.verbose)
         setTimeout(() => {
           setErrorMessage(null)
-        }, 5000);
+        }, 5000)
       }
     }
   }
@@ -101,64 +101,64 @@ const App = () => {
   const handleLikeOf = async (id) => {
     const blog = blogs.find(blog => blog.id === id)
     const editedLikes = blog.likes + 1
-    const editedBlog= { ...blog, likes: editedLikes}
+    const editedBlog= { ...blog, likes: editedLikes }
     console.log(editedBlog, editedLikes)
     try {
       await blogService.update(id, editedBlog)
       setErrorMessage(`Blog ${blog.title} edited`)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
+      }, 5000)
     } catch (exception) {
-      setErrorMessage(exception.message.verbose);
+      setErrorMessage(exception.message.verbose)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
+      }, 5000)
     }
   }
 
   const notification = () => (
-      <p>{errorMessage}</p>
+    <p>{errorMessage}</p>
   )
 
-    return(
-      <div>
-        {errorMessage &&
+  return(
+    <div>
+      {errorMessage &&
           notification()
-        }
-        <h2>blogs</h2>
-        {user === null ?
-          <LoginForm
+      }
+      <h2>blogs</h2>
+      {user === null ?
+        <LoginForm
           handleLogin={handleLogin}
           username={username}
           password={password}
           setUsername={setUsername}
           setPassword ={setPassword}
-          /> :
-          <>
-            <p>{user.name} is logged in </p>
-            <button onClick={handleLogout}>Logout</button>
-          </>
-        }
-        {user &&
+        /> :
+        <>
+          <p>{user.name} is logged in </p>
+          <button onClick={handleLogout}>Logout</button>
+        </>
+      }
+      {user &&
         <div>
-          <Togglable buttonLabel={"New Blog"} ref={blogFormRef}>
+          <Togglable buttonLabel={'New Blog'} ref={blogFormRef}>
             <BlogForm createBlog={addBlog}/>
           </Togglable>
 
         </div>
-        }
+      }
 
-          {blogs.map(blog =>
-            <Blog
-            key={blog.id}
-            blog={blog}
-            handleLike = {() => handleLikeOf(blog.id)}
-            destroyBlog = {() => removeBlog(blog.id)} />
-          )}
+      {blogs.map(blog =>
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLike = {() => handleLikeOf(blog.id)}
+          destroyBlog = {() => removeBlog(blog.id)} />
+      )}
 
-      </div>
-    )
-};
+    </div>
+  )
+}
 
 export default App
