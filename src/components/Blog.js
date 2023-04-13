@@ -24,7 +24,7 @@ const Blog = ({ blog, handleLike, destroyBlog }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <div style={{ display: 'flex' }}>
         <p style={textStyle}> {blog.title} {blog.author} </p>
         <button style={hideWhenVisible} onClick={toggleVisibility}> View </button>
@@ -33,7 +33,7 @@ const Blog = ({ blog, handleLike, destroyBlog }) => {
       <div className='blogdetails' style={showWhenVisible}>
         <p style={textStyle}> {blog.url} </p>
         <div style={{ display: 'flex' }}>
-          <p style={textStyle}> likes: {blog.likes} </p>
+          <p id='like-count' style={textStyle}> likes: {blog.likes} </p>
           <button onClick={handleLike}> Like </button>
         </div>
 

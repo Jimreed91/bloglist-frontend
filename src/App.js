@@ -118,7 +118,7 @@ const App = () => {
   }
 
   const notification = () => (
-    <p>{errorMessage}</p>
+    <p className='error'>{errorMessage}</p>
   )
 
   return(
@@ -142,7 +142,7 @@ const App = () => {
       }
       {user &&
         <div>
-          <Togglable buttonLabel={'New Blog'} ref={blogFormRef}>
+          <Togglable id={'new-blog-button'} buttonLabel={'New Blog'} ref={blogFormRef}>
             <BlogForm createBlog={addBlog}/>
           </Togglable>
 
