@@ -151,6 +151,7 @@ const App = () => {
 
       {blogs.map(blog =>
         <Blog
+          user={user}
           key={blog.id}
           blog={blog}
           handleLike = {() => handleLikeOf(blog.id)}
